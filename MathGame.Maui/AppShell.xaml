@@ -7,9 +7,8 @@
     Shell.FlyoutBehavior="Disabled"
     Title="MathGame.Maui">
 
-    <!--<ShellContent
-        Title="Home"
+    <ShellContent
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />-->
+        Route="MainPage" />
 
 </Shell>
