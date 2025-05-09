@@ -10,25 +10,19 @@ public partial class MainPage : ContentPage
         InitializeComponent();
     }
 
-    private void OnGameChosen(object sender, EventArgs e)
+    private void OnDifficultyChosen(object sender, EventArgs e)
     {
         Button btn = (Button)sender;
-        var gameType = btn.Text switch
+        var difficultyLevel = btn.Text switch
         {
-            "Addition" => Operation.Addition,
-            "Subtraction" => Operation.Subtraction,
-            "Multiplication" => Operation.Multiplication,
-            "Division" => Operation.Division,
-            "Random" => Operation.Random,
-            _ => Operation.Random
+            "Easy" => Difficulty.Easy,
+            "Medium" => Difficulty.Medium,
+            "Hard" => Difficulty.Hard,
+            "Extreme" => Difficulty.Extreme,
+            _ => Difficulty.Easy
         };
 
-        Navigation.PushAsync(new Game(gameType));
-    }
-    
-    private void OnViewGamesHistory(object sender, EventArgs e)
-    {
-        Navigation.PushAsync(new GameHistory());
+        Navigation.PushAsync(new Menu(difficultyLevel));
     }
 }
 
