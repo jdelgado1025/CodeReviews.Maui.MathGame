@@ -1,4 +1,5 @@
 ﻿using MathGame.Maui.Views;
+using MathGame.Maui.Models;
 
 namespace MathGame.Maui;
 
@@ -12,7 +13,17 @@ public partial class MainPage : ContentPage
     private void OnGameChosen(object sender, EventArgs e)
     {
         Button btn = (Button)sender;
-        Navigation.PushAsync(new Game(btn.Text));
+        var gameType = btn.Text switch
+        {
+            "Addition" => Operation.Addition,
+            "Subtraction" => Operation.Subtraction,
+            "Multiplication" => Operation.Multiplication,
+            "Division" => Operation.Division,
+            "Random" => Operation.Random,
+            _ => Operation.Random
+        };
+
+        Navigation.PushAsync(new Game(gameType));
     }
     
     private void OnViewGamesHistory(object sender, EventArgs e)
