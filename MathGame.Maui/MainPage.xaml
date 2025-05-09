@@ -6,27 +6,24 @@
     <ContentView>
         <VerticalStackLayout Spacing="25" Padding="50">
             <Label Text="Welcome to the Math Game!" FontSize="32" HorizontalOptions="Center"/>
-            <Label Text="What game would you like to play today?" FontSize="32" HorizontalOptions="Center"/>
+            <Label Text="Choose your difficulty level:" FontSize="28" HorizontalOptions="Center"/>
 
             <Grid RowSpacing="25" ColumnSpacing="10">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Text="Addition" Clicked="OnGameChosen"/>
-                <Button Grid.Column="1" Text="Subtraction" Clicked="OnGameChosen"/>
-                <Button Grid.Row="1" Grid.Column="0" Text="Multiplication" Clicked="OnGameChosen"/>
-                <Button Grid.Row="1" Grid.Column="1" Text="Division" Clicked="OnGameChosen"/>
-                <Button Grid.Row="2" Grid.Column="0" Text="Random" Clicked="OnGameChosen"/>
-                <Button Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="MediumSeaGreen" Text="Previous Game History" Clicked="OnViewGamesHistory"/>
+                <Button Grid.Column="0" Text="Easy" Clicked="OnDifficultyChosen"/>
+                <Button Grid.Column="1" Text="Medium" Clicked="OnDifficultyChosen"/>
+                <Button Grid.Column="2" Text="Hard" Clicked="OnDifficultyChosen"/>
+                <Button Grid.Column="3" Text="Extreme" Clicked="OnDifficultyChosen"/>
             </Grid>
         </VerticalStackLayout>
     </ContentView>
