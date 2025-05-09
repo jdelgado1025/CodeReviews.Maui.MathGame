@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MathGame.Maui.Views.Game">
     
-    <VerticalStackLayout Spacing="50" Padding="25">
+    <VerticalStackLayout Spacing="30" Padding="30">
         <Label 
             Text="{Binding GameType}"
             VerticalOptions="Center" 
@@ -14,18 +14,18 @@
             x:Name="QuestionLabel"
             VerticalOptions="Center" 
             HorizontalOptions="Center"
-            FontSize="32" />
+            FontSize="32"
+            Margin="25"/>
 
         <Entry
             x:Name="Answer"
-            HorizontalOptions="Center">
-        </Entry>
+            HorizontalOptions="Center" />
 
         <Button
             x:Name="SubmitAnswer"
             Text="Answer"
             Clicked="OnAnswerSubmitted"
-            HorizontalOptions="Center" />
+            HorizontalOptions="Center"/>
 
         <Label
             x:Name="AnswerLabel"
