@@ -9,8 +9,8 @@ public partial class Game : ContentPage
     public int Score { get; set; }
     private int _numberOne = 0;
     private int _numberTwo = 0;
-    //private const int _problemCount = 5;
-    //private int _questionsLeft = _problemCount;
+    private const int _problemCount = 5;
+    private int _questionsLeft = _problemCount;
     private Operation _currentOperation;
 
     public Game(Operation gameType, Difficulty level)
@@ -30,7 +30,7 @@ public partial class Game : ContentPage
         if (GameType == Operation.Random)
             _currentOperation = GetOperation();
 
-        (_numberOne, _numberTwo) = GenerateNumbers(GameType, Level);
+        (_numberOne, _numberTwo) = GenerateNumbers(_currentOperation, Level);
 
         var operationSymbol = _currentOperation switch
         {
@@ -96,11 +96,9 @@ public partial class Game : ContentPage
         }
 
         //Avoid negative number answers & higher number on the right side for Easy level
-        if (difficultyLevel == Difficulty.Easy && numberTwo > numberOne)
+        if (difficultyLevel == Difficulty.Easy && numberTwo > numberOne && gameType != Operation.Division && numberOne != 0)
         {
-            int temp = numberOne;
-            numberOne = numberTwo;
-            numberTwo = temp;
+            (numberOne, numberTwo) = (numberTwo, numberOne);
         }
 
         /* Return two values using a Tuple */
@@ -142,8 +140,24 @@ public partial class Game : ContentPage
             AnswerLabel.Text = "Incorrect!";
     }
 
+    private void GameOver()
+    {
+        GameOverLabel.Text = $"Your score: {Score} / {_problemCount}";
+    }
+
     private void OnAnswerSubmitted(object sender, EventArgs e)
     {
         ValidateAnswer();
+
+        //Reset Game Screen
+        AnswerEntry.Text = "";
+
+        //Keep track of questions left
+        _questionsLeft--;
+
+        if (_questionsLeft > 0)
+            GenerateQuestion();
+        else
+            GameOver();
     }
 }
