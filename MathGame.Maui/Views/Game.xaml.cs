@@ -6,12 +6,19 @@ public partial class Game : ContentPage
 {
     public Operation GameType { get; set; }
     public Difficulty Level { get; set; }
+    public int Score { get; set; }
+    private int _numberOne = 0;
+    private int _numberTwo = 0;
+    //private const int _problemCount = 5;
+    //private int _questionsLeft = _problemCount;
+    private Operation _currentOperation;
 
     public Game(Operation gameType, Difficulty level)
 	{
 		InitializeComponent();
 		GameType = gameType;
         Level = level;
+        Score = 0;
 		BindingContext = this;
 
         GenerateQuestion();
@@ -19,17 +26,30 @@ public partial class Game : ContentPage
 
     private void GenerateQuestion()
     {
-        var (numberOne, numberTwo) = GenerateNumbers(GameType, Level);
+        _currentOperation = GameType;
+        if (GameType == Operation.Random)
+            _currentOperation = GetOperation();
 
-        var operationSymbol = GameType switch
+        (_numberOne, _numberTwo) = GenerateNumbers(GameType, Level);
+
+        var operationSymbol = _currentOperation switch
         {
             Operation.Addition => "+",
             Operation.Subtraction => "-",
             Operation.Multiplication => "*",
-            Operation.Division => "/"
+            Operation.Division => "/",
+            _ => ""
         };
 
-        QuestionLabel.Text = $"{numberOne} {operationSymbol} {numberTwo}";
+        QuestionLabel.Text = $"{_numberOne} {operationSymbol} {_numberTwo}";
+    }
+
+    private Operation GetOperation()
+    {
+        Random rand = new Random();
+        int getOperation = rand.Next(0, 4);
+
+        return (Operation)getOperation;
     }
 
     private (int, int) GenerateNumbers(Operation gameType, Difficulty difficultyLevel)
@@ -43,13 +63,13 @@ public partial class Game : ContentPage
         switch (difficultyLevel)
         {
             case Difficulty.Easy:
-                upperLimit = 100;
+                upperLimit = 15;
                 break;
             case Difficulty.Medium:
-                upperLimit = 300;
+                upperLimit = 50;
                 break;
             case Difficulty.Hard:
-                upperLimit = 500;
+                upperLimit = 100;
                 break;
             case Difficulty.Extreme:
                 upperLimit = 5000;
@@ -87,8 +107,43 @@ public partial class Game : ContentPage
         return (numberOne, numberTwo);
     }
 
+    private int CalculateAnswer()
+    {
+        int answer = 0;
+        switch (_currentOperation)
+        {
+            case Operation.Addition:
+                answer = _numberOne + _numberTwo;
+                break;
+            case Operation.Subtraction:
+                answer = _numberOne - _numberTwo;
+                break;
+            case Operation.Multiplication:
+                answer = _numberOne * _numberTwo;
+                break;
+            case Operation.Division:
+                answer = _numberOne / _numberTwo;
+                break;
+        }
+
+        return answer;
+    }
+
+    private void ValidateAnswer()
+    {
+        var answer = CalculateAnswer();
+
+        if (int.TryParse(AnswerEntry.Text, out var userAnswer) && userAnswer == answer)
+        {
+            AnswerLabel.Text = "Correct!";
+            Score++;
+        }
+        else
+            AnswerLabel.Text = "Incorrect!";
+    }
+
     private void OnAnswerSubmitted(object sender, EventArgs e)
     {
-
+        ValidateAnswer();
     }
 }
