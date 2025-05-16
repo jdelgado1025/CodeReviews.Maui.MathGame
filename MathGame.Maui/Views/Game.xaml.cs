@@ -10,6 +10,7 @@ public partial class Game : ContentPage
     private int _numberOne = 0;
     private int _numberTwo = 0;
     private const int _problemCount = 5;
+    private int _questionNumber = 1;
     private int _questionsLeft = _problemCount;
     private Operation _currentOperation;
 
@@ -22,6 +23,7 @@ public partial class Game : ContentPage
 		BindingContext = this;
 
         GenerateQuestion();
+        UpdateScoreLabel();
     }
 
     private void GenerateQuestion()
@@ -129,8 +131,9 @@ public partial class Game : ContentPage
 
     private void ValidateAnswer()
     {
+        AnswerLabel.Text = "";
         var answer = CalculateAnswer();
-
+        
         if (int.TryParse(AnswerEntry.Text, out var userAnswer) && userAnswer == answer)
         {
             AnswerLabel.Text = "Correct!";
@@ -138,26 +141,45 @@ public partial class Game : ContentPage
         }
         else
             AnswerLabel.Text = "Incorrect!";
+
+        UpdateScoreLabel();
     }
 
     private void GameOver()
     {
-        GameOverLabel.Text = $"Your score: {Score} / {_problemCount}";
+        GameOverLabel.Text = $"Game Over!";
     }
 
-    private void OnAnswerSubmitted(object sender, EventArgs e)
+    private async void OnAnswerSubmitted(object sender, EventArgs e)
     {
         ValidateAnswer();
 
         //Reset Game Screen
         AnswerEntry.Text = "";
 
+        //Set label animation
+        AnswerLabel.Opacity = 0;
+        await AnswerLabel.FadeTo(1, 500);
+
         //Keep track of questions left
         _questionsLeft--;
 
         if (_questionsLeft > 0)
+        { 
             GenerateQuestion();
+            _questionNumber++;
+            QuestionNumberLabel.Text = $"Question {_questionNumber}";
+        }
         else
             GameOver();
+
+        await Task.Delay(2000);
+        await AnswerLabel.FadeTo(0, 500);
+        AnswerLabel.Text = "";
+    }
+
+    private void UpdateScoreLabel()
+    {
+        ScoreLabel.Text = $"Score: {Score} / {_problemCount}";
     }
 }
