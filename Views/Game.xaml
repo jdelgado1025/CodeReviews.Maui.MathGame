@@ -9,30 +9,32 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center"
             FontSize="40" />
-        
-        <Label
-            x:Name="QuestionLabel"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center"
-            FontSize="32"
-            Margin="25"/>
 
-        <Entry
-            x:Name="AnswerEntry"
-            HorizontalOptions="Center"
-            WidthRequest="60" />
+        <VerticalStackLayout x:Name="QuestionArea" Spacing="20" Padding="30">
+            <Label
+                x:Name="QuestionLabel"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center"
+                FontSize="32"
+                Margin="25"/>
 
-        <Button
-            x:Name="SubmitAnswer"
-            Text="Answer"
-            Clicked="OnAnswerSubmitted"
-            HorizontalOptions="Center"/>
+            <Entry
+                x:Name="AnswerEntry"
+                HorizontalOptions="Center"
+                WidthRequest="60" />
 
-        <Label
-            x:Name="AnswerLabel"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            FontSize="32" />
+            <Button
+                x:Name="SubmitAnswer"
+                Text="Answer"
+                Clicked="OnAnswerSubmitted"
+                HorizontalOptions="Center"/>
+
+            <Label
+                x:Name="AnswerLabel"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                FontSize="32" />
+        </VerticalStackLayout>
 
         <Grid RowSpacing="20" ColumnSpacing="30">
             <Grid.RowDefinitions>
