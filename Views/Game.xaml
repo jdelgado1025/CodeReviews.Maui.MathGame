@@ -34,10 +34,36 @@
             HorizontalOptions="Center"
             FontSize="32" />
 
+        <Grid RowSpacing="20" ColumnSpacing="30">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label
+                x:Name="QuestionNumberLabel"
+                Grid.Column="0"
+                HorizontalOptions="Start"
+                Text="Question 1"
+                FontSize="24"/>
+
+            <Label
+                x:Name="ScoreLabel"
+                Grid.Column="1"
+                HorizontalOptions="End"
+                Text="Score: 0 / 0"
+                FontSize="24"/>
+        </Grid>
+
         <Label
             x:Name="GameOverLabel"
             VerticalOptions="Center"
-            HorizontalOptions="Center" />
+            HorizontalOptions="Center"
+            FontSize="30"/>
 
     </VerticalStackLayout>
 </ContentPage>
