@@ -5,7 +5,7 @@
     
     <ContentView>
         <VerticalStackLayout Spacing="25" Padding="50">
-            <Label Text="What game would you like to play today?" FontSize="32" HorizontalOptions="Center"/>
+            <Label Text="What game would you like to play today?" FontSize="32" HorizontalOptions="Center" Margin="30"/>
 
             <Grid RowSpacing="25" ColumnSpacing="10">
                 <Grid.RowDefinitions>
