@@ -147,7 +147,8 @@ public partial class Game : ContentPage
 
     private void GameOver()
     {
-        GameOverLabel.Text = $"Game Over!";
+        GameOverLabel.Text = $"Thank you for playing!";
+        BackButton.IsVisible = true;
     }
 
     private async void OnAnswerSubmitted(object sender, EventArgs e)
@@ -176,6 +177,13 @@ public partial class Game : ContentPage
         await Task.Delay(2000);
         await AnswerLabel.FadeTo(0, 500);
         AnswerLabel.Text = "";
+    }
+
+    private void OnBackToMenu(object sender, EventArgs e)
+    {
+        Button btn = (Button)sender;
+
+        Navigation.PushAsync(new Menu(Level));
     }
 
     private void UpdateScoreLabel()

@@ -67,5 +67,12 @@
             HorizontalOptions="Center"
             FontSize="30"/>
 
+        <Button
+            x:Name="BackButton"
+            Text="Back to Menu"
+            Clicked="OnBackToMenu"
+            HorizontalOptions="Center"
+            IsVisible="False"/>
+
     </VerticalStackLayout>
 </ContentPage>
