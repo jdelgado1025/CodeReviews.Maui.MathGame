@@ -3,10 +3,55 @@ using DataAccess;
 
 namespace MathGame.Maui.Views;
 
+[QueryProperty(nameof(GameTypeParameter), "gameType")]
+[QueryProperty(nameof(DifficultyParameter), "level")]
 public partial class Game : ContentPage
 {
-    public Operation GameType { get; set; }
-    public Difficulty Level { get; set; }
+    private string _gameType;
+
+    public string GameTypeParameter
+    {
+        get => _gameType;
+        set
+        {
+            _gameType = value;
+            GameType = Enum.TryParse(value, out Operation gameType) ? gameType : default;
+        }
+    }
+
+    private Operation gameType;
+    public Operation GameType
+    {
+        get => gameType;
+        set
+        {
+            gameType = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private string _level;
+    public string DifficultyParameter 
+    {
+        get => _level;
+        set
+        {
+            _level = value;
+            Level = Enum.TryParse(value, out Difficulty level) ? level : default;
+        }
+    }
+
+    private Difficulty level;
+    public Difficulty Level
+    {
+        get => level;
+        set
+        {
+            level = value;
+            OnPropertyChanged();
+        }
+    }
+
     public int Score { get; set; }
     private int _numberOne = 0;
     private int _numberTwo = 0;
@@ -15,14 +60,16 @@ public partial class Game : ContentPage
     private int _questionsLeft = _problemCount;
     private Operation _currentOperation;
 
-    public Game(Operation gameType, Difficulty level)
+    public Game()
 	{
 		InitializeComponent();
-		GameType = gameType;
-        Level = level;
+        BindingContext = this;
         Score = 0;
-		BindingContext = this;
+    }
 
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
         GenerateQuestion();
         UpdateScoreLabel();
     }
@@ -180,11 +227,11 @@ public partial class Game : ContentPage
         AnswerLabel.Text = "";
     }
 
-    private void OnBackToMenu(object sender, EventArgs e)
+    private async void OnBackToMenu(object sender, EventArgs e)
     {
         Button btn = (Button)sender;
 
-        Navigation.PushAsync(new Menu(Level));
+        await Shell.Current.GoToAsync($"Menu?difficulty={Level}");
     }
 
     private void UpdateScoreLabel()
