@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using DataAccess;
+using MathGame.Maui.Views;
 
 namespace MathGame.Maui;
 public static class MauiProgram
@@ -28,6 +29,8 @@ public static class MauiProgram
             var conn = config.GetConnectionString("DefaultConnection");
             options.UseMySql(conn, ServerVersion.AutoDetect(conn));
         });
+
+        builder.Services.AddTransient<Views.Game>();
 
 #if DEBUG
 		builder.Logging.AddDebug();
