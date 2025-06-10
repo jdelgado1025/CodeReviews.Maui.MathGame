@@ -8,7 +8,6 @@ namespace MathGame.Maui.Views;
 public partial class Game : ContentPage
 {
     private string _gameType;
-
     public string GameTypeParameter
     {
         get => _gameType;
@@ -59,11 +58,13 @@ public partial class Game : ContentPage
     private int _questionNumber = 1;
     private int _questionsLeft = _problemCount;
     private Operation _currentOperation;
+    private readonly DataContext _context;
 
-    public Game()
+    public Game(DataContext context)
 	{
 		InitializeComponent();
         BindingContext = this;
+        _context = context;
         Score = 0;
     }
 
@@ -197,6 +198,7 @@ public partial class Game : ContentPage
     {
         GameOverLabel.Text = $"Thank you for playing!";
         BackButton.IsVisible = true;
+        RecordGameHistory();
     }
 
     private async void OnAnswerSubmitted(object sender, EventArgs e)
@@ -237,5 +239,18 @@ public partial class Game : ContentPage
     private void UpdateScoreLabel()
     {
         ScoreLabel.Text = $"Score: {Score} / {_problemCount}";
+    }
+
+    private async void RecordGameHistory()
+    {
+        var record = new DataAccess.Game
+        {
+            Operation = GameType,
+            Score = Score,
+            DatePlayed = DateTime.Now
+        };
+
+        _context.Games.Add( record );
+        await _context.SaveChangesAsync();
     }
 }
