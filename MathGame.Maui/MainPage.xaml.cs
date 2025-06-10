@@ -10,7 +10,7 @@ public partial class MainPage : ContentPage
         InitializeComponent();
     }
 
-    private void OnDifficultyChosen(object sender, EventArgs e)
+    private async void OnDifficultyChosen(object sender, EventArgs e)
     {
         Button btn = (Button)sender;
         var difficultyLevel = btn.Text switch
@@ -22,7 +22,8 @@ public partial class MainPage : ContentPage
             _ => Difficulty.Easy
         };
 
-        Navigation.PushAsync(new Menu(difficultyLevel));
+        //Navigation.PushAsync(new Menu(difficultyLevel));
+        await Shell.Current.GoToAsync($"Menu?difficulty={difficultyLevel}");
     }
 }
 
