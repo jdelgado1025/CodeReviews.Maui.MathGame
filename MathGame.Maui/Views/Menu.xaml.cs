@@ -3,17 +3,27 @@ using DataAccess;
 
 namespace MathGame.Maui.Views;
 
+[QueryProperty(nameof(LevelParameter), "difficulty")]
 public partial class Menu : ContentPage
 {
+    private string _difficulty;
+    public string LevelParameter
+    {
+        get => _difficulty;
+        set
+        {
+            _difficulty = value;
+            Level = Enum.TryParse(value, out Difficulty _level) ? _level : Difficulty.Easy;
+        }
+    }
     public Difficulty Level { get; set; }
 
-    public Menu(Difficulty level)
+    public Menu()
 	{
 		InitializeComponent();
-        Level = level;
 	}
 
-    private void OnGameChosen(object sender, EventArgs e)
+    private async void OnGameChosen(object sender, EventArgs e)
     {
         Button btn = (Button)sender;
         var gameType = btn.Text switch
@@ -26,11 +36,12 @@ public partial class Menu : ContentPage
             _ => Operation.Random
         };
 
-        Navigation.PushAsync(new Game(gameType, Level));
+        //await Navigation.PushAsync(new Game(gameType, Level));
+        await Shell.Current.GoToAsync($"Game?gameType={gameType}&level={Level}");
     }
 
-    private void OnViewGamesHistory(object sender, EventArgs e)
+    private async void OnViewGamesHistory(object sender, EventArgs e)
     {
-        Navigation.PushAsync(new GameHistory());
+        await Navigation.PushAsync(new GameHistory());
     }
 }
